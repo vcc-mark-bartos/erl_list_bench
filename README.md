@@ -18,15 +18,14 @@ The app uses `rebar v3+` package manager.
 
 ### Run
 
-Note that `run` automatically calls `get-deps`.
-
 `$ make run`
 
 ### Shell
 
-Note that `shell` automatically calls `get-deps`.
-
-`$ make shell`
+```shell
+$ make shell
+1> erl_list_bench:main("").
+```
 
 ## Dependencies
 

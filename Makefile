@@ -9,10 +9,13 @@ get-deps:
 compile:
 	@$(REBAR) compile
 
-run: get-deps
-	@$(ERL) -noshell -pa ebin -s application start erl_list_bench
+escriptize:
+	@$(REBAR) escriptize
 
-shell: get-deps
+run: escriptize
+	./_build/default/bin/erl_list_bench
+
+shell:
 	@$(REBAR) shell
 
 clean:

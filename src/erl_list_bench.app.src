@@ -2,7 +2,6 @@
  [{description, "Benchmark for testing the performance of different list implementations."},
   {vsn, "0.1.0"},
   {registered, []},
-  {mod, { erl_list_bench_app, []}},
   {applications,
    [kernel,
     stdlib
@@ -12,5 +11,5 @@
 
   {maintainers, []},
   {licenses, ["GNU GPL2"]},
-  {links, []}
+  {links, ["https://github.com/Jackneill/erl_list_bench"]}
  ]}.
