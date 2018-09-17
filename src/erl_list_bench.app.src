@@ -1,0 +1,16 @@
+{application, erl_list_bench,
+ [{description, "Benchmark for testing the performance of different list implementations."},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, { erl_list_bench_app, []}},
+  {applications,
+   [kernel,
+    stdlib
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, ["GNU GPL2"]},
+  {links, []}
+ ]}.

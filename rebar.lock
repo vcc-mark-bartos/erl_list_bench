@@ -1,0 +1,4 @@
+[{<<"eministat">>,
+  {git,"git@github.com:jlouis/eministat.git",
+       {ref,"022764f2b8fa45909c38cdc9a28d199656e78526"}},
+  0}].
