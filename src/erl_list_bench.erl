@@ -24,76 +24,74 @@ main(_Args) ->
 %% lists:keysearch/3
 %% =============================================================================
 
-bench_lists_keysearch(K, N, List, Runs) ->
-    eministat:s("lists:keysearch/3", fun() -> do_lists_keysearch(K, N, List, Runs) end, ?TRIALS).
+bench_lists_keysearch(Find, List, Runs) ->
+    eministat:s("lists:keysearch/3", fun() -> do_lists_keysearch(Find, List, Runs) end, ?TRIALS).
 
-do_lists_keysearch(_, _, _, 0) ->
+do_lists_keysearch(_, _, 0) ->
     ok;
-do_lists_keysearch(K, N, List, Runs) ->
-    lists:keysearch(K, N, List),
-    do_lists_keysearch(K, N, List, Runs-1).
+do_lists_keysearch(Find, List, Runs) ->
+    lists:keysearch(Find, 1, List),
+    do_lists_keysearch(Find, List, Runs-1).
 
 %% =============================================================================
 %% proplists:get_value/2
 %% =============================================================================
 
-bench_proplists_get_value(K, List, Runs) ->
-    eministat:s("proplists:get_value/2", fun() -> do_proplists_get_value(K, List, Runs) end, ?TRIALS).
+bench_proplists_get_value(Find, List, Runs) ->
+    eministat:s("proplists:get_value/2", fun() -> do_proplists_get_value(Find, List, Runs) end, ?TRIALS).
 
 do_proplists_get_value(_, _, 0) ->
     ok;
-do_proplists_get_value(K, List, Runs) ->
-    proplists:get_value(K, List),
-    do_proplists_get_value(K, List, Runs-1).
+do_proplists_get_value(Find, List, Runs) ->
+    proplists:get_value(Find, List),
+    do_proplists_get_value(Find, List, Runs-1).
 
 %% =============================================================================
 %% lookup_loop
 %% =============================================================================
 
-bench_lookup_loop(K, List, Runs) ->
-    eministat:s("lookup_loop", fun() -> do_lookup_loop(K, List, Runs) end, ?TRIALS).
+bench_lookup_loop(Find, List, Runs) ->
+    eministat:s("lookup_loop", fun() -> do_lookup_loop(Find, List, Runs) end, ?TRIALS).
 
 do_lookup_loop(_, _, 0) ->
     ok;
-do_lookup_loop(K, List, Runs) ->
-    lookup_loop(K, List),
-    do_lookup_loop(K, List, Runs-1).
+do_lookup_loop(Find, List, Runs) ->
+    lookup_loop(Find, List),
+    do_lookup_loop(Find, List, Runs-1).
 
 lookup_loop(_, []) ->
     not_found;
-lookup_loop(K, List) ->
-    [H|T] = List,
-    if H =:= K ->
+lookup_loop(Find, [{H, _}|T]) ->
+    if H =:= Find ->
         ok;
     true ->
-        lookup_loop(K, T)
+        lookup_loop(Find, T)
     end.
 
 %% =============================================================================
 %% list comprehensions
 %% =============================================================================
 
-bench_list_comprehensions(K, List, Runs) ->
-    eministat:s("list comprehensions", fun() -> do_list_comprehensions(K, List, Runs) end, ?TRIALS).
+bench_list_comprehensions(Find, List, Runs) ->
+    eministat:s("list comprehensions", fun() -> do_list_comprehensions(Find, List, Runs) end, ?TRIALS).
 
 do_list_comprehensions(_, _, 0) ->
     ok;
-do_list_comprehensions(K, List, Runs) ->
-    [X || X <- List, K =:= X],
-    do_list_comprehensions(K, List, Runs-1).
+do_list_comprehensions(Find, List, Runs) ->
+    [X || {X, _} <- List, Find =:= X],
+    do_list_comprehensions(Find, List, Runs-1).
 
 %% =============================================================================
 
 datasets() ->
     List = [{rand:uniform(10000000), rand:uniform(10000000)} || _ <- lists:seq(1, ?SIZE)],
-    K = rand:uniform(10000000),
-    N = 1,
+    Find = rand:uniform(10000000),
     Runs = ?ROUNDS,
 
-    [bench_lists_keysearch(K, N, List, Runs),
-    bench_proplists_get_value(K, List, Runs),
-    bench_lookup_loop(K, List, Runs),
-    bench_list_comprehensions(K, List, Runs)].
+    [bench_lists_keysearch(Find, List, Runs),
+    bench_proplists_get_value(Find, List, Runs),
+    bench_lookup_loop(Find, List, Runs),
+    bench_list_comprehensions(Find, List, Runs)].
 
 t() ->
     [H|T] = datasets(),
