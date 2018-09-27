@@ -20,3 +20,5 @@ shell:
 
 clean:
 	@$(REBAR) clean
+
+.PHONY: all get-deps compile escriptize run shell clean
